@@ -7,6 +7,7 @@ The Core handles API related functions
 
 import configparser
 import requests
+import json
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -19,4 +20,8 @@ INTERVAL = "1min"
 API_URL = "https://www.alphavantage.co/query?outputsize=compact&function={}&symbol={}&interval={}&apikey={}"
 REQUEST = API_URL.format(FUNCTION, SYMBOL, INTERVAL, API_KEY)
 response = requests.get(REQUEST)
-print(response.text)
+json_data = json.loads(response.text)
+time_series = json_data['Time Series (1min)']
+for i in time_series:
+    print(i)
+    print(time_series[i])
